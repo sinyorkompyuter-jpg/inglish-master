@@ -1,1 +1,44 @@
+currentCard = card;
+            document.getElementById('q-title').innerText = "Points: 15";
+            document.getElementById('q-display').innerText = quizData[idx].q;
+            document.getElementById('a-display').innerText = quizData[idx].a;
+            document.getElementById('a-display').style.display = 'none';
+            document.getElementById('action-btns').style.display = 'none';
+            document.getElementById('check-btn').style.display = 'block';
+            document.getElementById('quiz-modal').style.display = 'block';
+        }
 
+        function revealAnswer() {
+            document.getElementById('a-display').style.display = 'block';
+            document.getElementById('check-btn').style.display = 'none';
+            document.getElementById('action-btns').style.display = 'block';
+        }
+
+        function handleResult(isCorrect) {
+            if(isCorrect) {
+                if(currentTurn === 1) { score1 += 15; document.getElementById('s1').innerText = score1; }
+                else { score2 += 15; document.getElementById('s2').innerText = score2; }
+            }
+            
+            currentTurn = currentTurn === 1 ? 2 : 1;
+            document.getElementById('team1-ui').classList.toggle('active');
+            document.getElementById('team2-ui').classList.toggle('active');
+            
+            currentCard.classList.add('used');
+            currentCard.innerText = "⭐";
+            document.getElementById('quiz-modal').style.display = 'none';
+            checkEnd();
+        }
+
+        function checkEnd() {
+            const usedCards = document.querySelectorAll('.card.used').length;
+            if(usedCards === quizData.length) {
+                let winner = score1 > score2 ? "Team A" : "Team B";
+                if(score1 === score2) winner = "Both Teams (Draw)";
+                document.getElementById('winner-text').innerText = winner + " Wins!";
+                document.getElementById('win-screen').style.display = 'flex';
+            }
+        }
+    </script>
+</body>
+</html>
